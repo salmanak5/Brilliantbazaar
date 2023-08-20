@@ -1,0 +1,329 @@
+{% extends 'base.html' %}
+{% block title %}home{% endblock title %}
+{% block body %}
+{% load static  %}
+
+<style>
+  img {
+    width: 255px;
+    height: 300px;
+  }
+  .abc{
+    border-radius:100px;
+  }
+</style>
+<div class="container-fluid ">
+  <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
+  <div id="carouselExampleCaptions" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="http://source.unsplash.com/1600x600/?clothes" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block"style= "background:rgb(0, 0, 0);border-radius:63px;">
+          <h5>CLOTHES</h5>
+          <p>SHOP BRILLIANTLY WITH US</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="http://source.unsplash.com/1600x600/?earbuds" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block"style= "background:rgb(0, 0, 0);border-radius:63px;">
+          <h5>EARBUDS</h5>
+          <p>SHOP BRILLIANTLY WITH US</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="http://source.unsplash.com/1600x600/?shoes" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block" style= "background:rgb(0, 0, 0);border-radius:63px;"  >
+          <h5>SHOES</h5>
+          <p>SHOP BRILLIANTLY WITH US</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+</div>
+
+<!-- this is for product listing -->
+
+
+
+  <div class="album py-5 bg-body-tertiary">
+    <div class="container my-3">
+      <h1 class="my-2 text-center">SELECT FROM OUR RANGE OF PRODUCTS</h1>
+      
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        
+        {% comment %} <div class="col">
+          <div class="card shadow-sm">
+            <img src='/media/{{product.0.image}}' class="d-block w-100" alt="...">
+            <div class="card-body"> 
+            <h5>{{product.0.product_name}}</h5>
+              <p class="card-text">{{product.0.desc}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" href="checkout" >checkout</button>
+                  <a class="btn btn-sm btn-outline-secondary" aria-current="page" href="/checkout">buy</a>
+                  <a href="#" class="btn btn-primary">Add To Cart</a>
+                </div>
+                <small class="text-body-secondary">9 mins</small>
+              </div>
+            </div>
+          </div>
+        </div> {% endcomment %}
+
+        
+        {% for i in product %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <img src='/media/{{i.image}}' class="d-block w-100" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"id="namepr{{i.id}}">{{i.product_name}}</h5>
+              <h6 class="card-title">RS. {{i.Price}}/-</h6>
+              <p class="card-text">{{i.desc|slice:"0:40"}}...</p>
+              <span id="divpr{{i.id}}"class="divpr" > </span>
+              <div class="d-flex justify-content-between align-items-center " style="margin-top: 10px;">
+                
+                  <button id="pr{{i.id}}" class="btn btn-primary cart" >Add To Cart</button>
+                </span>
+                <div class="btn-group"> 
+                  <a href="products/{{i.id}}"><button id="qv{{i.id}}" class="btn btn-primary cart mx-2" >Quick View</button></a>
+                
+                </div>
+                
+                {% comment %} <small class="text-body-secondary">9 mins</small> {% endcomment %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>      
+    
+{% endblock body %}
+
+
+
+{%block js%}
+
+{%endblock%}
+
+
+
+
+
+{% comment %} {% block js %}
+<script>
+console.log('working');
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+else
+{
+cart = JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+$('.cart').click(function(){
+console.log('clicked');
+var idstr = this.id.toString();
+console.log(idstr);
+if (cart[idstr] !=undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else
+{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+
+$('#popcart').popover();
+document.getElementById("popcart").setAttribute('data-content', '<h5>Cart</h5>');
+
+
+</script>
+{% endblock %} {% endcomment %}
+
+
+{% comment %} <script>
+  {% block js %}
+  <script>
+    console.log('working');
+    var cart = {};  // Declare cart as a global variable
+    
+    if (localStorage.getItem('cart') != null) {
+      cart = JSON.parse(localStorage.getItem('cart'));
+    }
+  
+    // jQuery starts here
+    $('.cart').click(function() {
+      console.log('clicked');
+      // You can manipulate the 'cart' object here, for example:
+      // cart['product_id'] = quantity; // Add a product to cart
+      // localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+    });
+  </script>
+  {% endblock %}
+  
+</script> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+      {% comment %} {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %} {% endcomment %}
+
+
+      {% comment %} <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?electronic" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?shoes" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?clothes" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?earbuds" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?shoes" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+               
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?clothes" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="http://source.unsplash.com/1200x900/?electronics" class="d-block w-100" alt="...">
+          <div class="card-body">
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">buy</button>
+                <!-- <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+              </div>
+              <small class="text-body-secondary">9 mins</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+

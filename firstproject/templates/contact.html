@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Contact{% endblock title %}
+{% block body %}
+<style>
+    .lcontainer-fluid{
+        height: 400px;
+    }
+
+</style>
+{% comment %} <div class="lcontainer-fluid px-0 ">
+    <img src="http://source.unsplash.com/1200x400/?contact,phone"
+        class="d-block w-100" alt="..."></div> {% endcomment %}
+        {% comment %} <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+<spline-viewer url="https://prod.spline.design/fJ2ptJKzT-sDkpfO/scene.splinecode" background="rgba(218,81,221,0.2)"></spline-viewer> {% endcomment %}
+<div class="lcontainer-fluid">
+<script type="module" src="https://unpkg.com/@splinetool/viewer@0.9.420/build/spline-viewer.js"></script>
+<spline-viewer url="https://prod.spline.design/jRtmX8Wh1vmrkP2H/scene.splinecode"></spline-viewer>
+</div>
+<div class="container">
+    <h1 class="text-center">Contact us</h1>
+    
+    <form method="post" action="/contact">
+        {% csrf_token %}
+    <div class="form-group mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name"
+            placeholder="Enter Your Name">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">phone</label>
+        <input type="phone" class="form-control" id="phone"name="phone"
+            placeholder="Enter Your Phone Number">
+    </div>
+      
+    <div class="mb-3">
+        <label for="desc" class="form-label">Description</label>
+        <textarea class="form-control" id="desc" rows="3" name="desc" placeholder="Tell us about what you want to contact for "></textarea>
+        <br>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</div>
+</form>
+{% endblock body %}

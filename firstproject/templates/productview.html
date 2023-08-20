@@ -1,0 +1,291 @@
+
+<!------ Include the above in your HEAD tag ---------->
+{% extends 'base.html' %}
+{% block title %}{{product.product_name}}{% endblock title %} 
+{%block body%}
+
+    <style>
+        ul > li{margin-right:25px;font-weight:lighter;cursor:pointer}
+li.active{border-bottom:3px solid silver;}
+
+.item-photo{display:flex;justify-content:center;align-items:center;border-right:1px solid #f6f6f6;}
+.menu-items{list-style-type:none;font-size:11px;display:inline-flex;margin-bottom:0;margin-top:20px}
+.btn-success{width:100%;border-radius:0;}
+.section{width:100%;margin-left:-15px;padding:2px;padding-left:15px;padding-right:15px;background:#f8f9f9}
+.title-price{margin-top:30px;margin-bottom:0;color:black}
+.title-attr{margin-top:0;margin-bottom:0;color:black;}
+.btn-minus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-right:0;}
+.btn-plus{cursor:pointer;font-size:7px;display:flex;align-items:center;padding:5px;padding-left:10px;padding-right:10px;border:1px solid gray;border-radius:2px;border-left:0;}
+div.section > div {width:100%;display:inline-flex;}
+div.section > div > input {margin:0;padding-left:5px;font-size:10px;padding-right:5px;max-width:18%;text-align:center;}
+.attr,.attr2{cursor:pointer;margin-right:5px;height:20px;font-size:10px;padding:2px;border:1px solid gray;border-radius:2px;}
+.attr.active,.attr2.active{ border:1px solid orange;}
+
+@media (max-width: 426px) {
+    .container {margin-top:0px !important;}
+    .container > .row{padding:0 !important;}
+    .container > .row > .col-xs-12.col-sm-5{
+        padding-right:0 ;    
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > p{
+        padding-left:0 !important;
+        padding-right:0 !important;
+    }
+    .container > .row > .col-xs-12.col-sm-9 > div > ul{
+        padding-left:10px !important;
+        
+    }            
+    .section{width:104%;}
+    .menu-items{padding-left:0;}
+}
+    </style>
+    <body>
+        <div class="container">
+        	<div class="row">
+               <div class="col-xs-4 item-photo">
+                <img src="/media//{{product.image}}" width="600px" height="500px">  
+                </div>
+                <div class="col-xs-5" style="border:0px solid gray">
+                    <!-- Datos del vendedor y titulo del producto -->
+                    <h3>{{product.product_name}}</h3>    
+                    <h5 style="color:#337ab7">vendido por <a href="#">Samsung</a> · <small style="color:#337ab7">(5054 ventas)</small></h5>
+        
+                    <!-- Precios -->
+                    <h6 class="title-price"><small>Price</small></h6>
+                    <h3 style="margin-top:0px;">{{product.Price}}</h3>
+        
+                    <!-- Detalles especificos del producto -->
+                    <div class="section">
+                        <h6 class="title-attr" style="margin-top:15px;" ><small>COLOR</small></h6>                    
+                        <div>
+                            <div class="attr" style="width:25px;background:#5a5a5a;"></div>
+                            <div class="attr" style="width:25px;background:white;"></div>
+                        </div>
+                    </div>
+                    <div class="section" style="padding-bottom:5px;">
+                        <h6 class="title-attr"><small></small></h6>                    
+                        <div>
+                            <div class="attr2"></div>
+                            <div class="attr2"></div>
+                        </div>
+                    </div>   
+                    <div class="container">
+                        <div class="row">
+                            <h2> Quantity </h2>
+                            
+                            
+                                            <div class="col-lg-2">
+                                                            <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="quantity-left-minus btn btn-danger btn-number"  data-type="minus" data-field="">
+                                                              <span class="glyphicon glyphicon-minus"></span>
+                                                            </button>
+                                                        </span>
+                                                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="quantity-right-plus btn btn-success btn-number" data-type="plus" data-field="">
+                                                                <span class="glyphicon glyphicon-plus"></span>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                            </div>
+                        </div>
+                    </div>           
+        
+                    <!-- Botones de compra -->
+                    <div class="section" style="padding-bottom:20px;">
+                        <button class="btn btn-success"><span style="margin-right:20px" class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>Add To Cart</button>
+                        <h6><a href="#"><span class="glyphicon glyphicon-heart-empty" style="cursor:pointer;"></span> Add to whislist</a></h6>
+                    </div>                                        
+                </div>                              
+        
+                <div class="col-xs-9">
+                    <ul class="menu-items">
+                        <li class="active">Description</li>
+                        <li>Garantía</li>
+                        <li>Vendedor</li>
+                        <li>Envío</li>
+                    </ul>
+                    <div style="width:100%;border-top:1px solid silver">
+                        <p style="padding:15px;">
+                            <small>
+                                {{product.desc}}
+                            </small>
+                        </p>
+                        
+                    </div>
+                </div>		
+            </div>
+        </div>        
+    </body>
+    {% endblock %}
+    {% block js %}
+    <Script>
+        $(document).ready(function(){
+
+            var quantitiy=0;
+               $('.quantity-right-plus').click(function(e){
+                    
+                    // Stop acting like a button
+                    e.preventDefault();
+                    // Get the field name
+                    var quantity = parseInt($('#quantity').val());
+                    
+                    // If is not undefined
+                        
+                        $('#quantity').val(quantity + 1);
+            
+                      
+                        // Increment
+                    
+                });
+            
+                 $('.quantity-left-minus').click(function(e){
+                    // Stop acting like a button
+                    e.preventDefault();
+                    // Get the field name
+                    var quantity = parseInt($('#quantity').val());
+                    
+                    // If is not undefined
+                  
+                        // Increment
+                        if(quantity>0){
+                        $('#quantity').val(quantity - 1);
+                        }
+                });
+                
+            });
+        </script>
+        {% endblock %}
+
+    
+{% comment %} <JavaScript>
+    $(document).ready(function(){
+        //-- Click on detail
+        $("ul.menu-items > li").on("click",function(){
+            $("ul.menu-items > li").removeClass("active");
+            $(this).addClass("active");
+        })
+
+        $(".attr,.attr2").on("click",function(){
+            var clase = $(this).attr("class");
+
+            $("." + clase).removeClass("active");
+            $(this).addClass("active");
+        })
+
+        //-- Click on QUANTITY
+        $(".btn-minus").on("click",function(){
+            var now = $(".section > div > input").val();
+            if ($.isNumeric(now)){
+                if (parseInt(now) -1 > 0){ now--;}
+                $(".section > div > input").val(now);
+            }else{
+                $(".section > div > input").val("1");
+            }
+        })            
+        $(".btn-plus").on("click",function(){
+            var now = $(".section > div > input").val();
+            if ($.isNumeric(now)){
+                $(".section > div > input").val(parseInt(now)+1);
+            }else{
+                $(".section > div > input").val("1");
+            }
+        })                        
+    }) 
+</javascript> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <!-- {% extends 'base.html' %}
+{% block title %}{{product.product_name}}{% endblock title %}
+<style>
+    .lrow
+    {
+      width: auto;  
+      text-align: center;
+        
+    }
+</style>
+{% block body %}
+
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-4">
+    <div class="row">
+       <img src="/media//{{product.image}}" width="233px" height="385px">
+    </div>
+    <div class="lrow">
+        <button class="btn btn-primary mx-3 "> Buy Now</button>
+        <button class="btn btn-primary mx-3"> Add To Cart</button>
+    </div>
+        </div>
+    <div class="col-md-8">
+        <h5>{{product.product_name}}</h5>
+        <p><b>RS.</b>{{product.Price}}/-</p>
+        <p>{{product.desc}}</p>
+       
+    </div>
+        </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+console.log('working');
+if(localStorage.getItem('cart') == null){
+var cart = {};
+}
+else
+{
+cart = JSON.parse(localStorage.getItem('cart'));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+}
+$('.cart').click(function(){
+console.log('clicked');
+var idstr = this.id.toString();
+console.log(idstr);
+if (cart[idstr] !=undefined){
+cart[idstr] = cart[idstr] + 1;
+}
+else
+{
+cart[idstr] = 1;
+}
+console.log(cart);
+localStorage.setItem('cart', JSON.stringify(cart));
+document.getElementById('cart').innerHTML = Object.keys(cart).length;
+});
+$('#popcart').popover();
+document.getElementById("popcart").setAttribute('data-content', '<h5>Cart for your items in my shopping cart</h5>');
+</script>
+{% endblock %} --> {% endcomment %}
